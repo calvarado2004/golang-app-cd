@@ -15,17 +15,6 @@ spec:
         id: app-golang
     spec:
       schedulerName: stork
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: "id"
-                  operator: In
-                  values:
-                  - app-golang
-            topologyKey: "kubernetes.io/hostname"
-            #topologyKey: topology.kubernetes.io/zone
       securityContext:
         #Type: anyuid
         fsGroup: 1001
