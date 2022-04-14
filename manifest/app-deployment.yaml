@@ -55,7 +55,7 @@ spec:
         args: ["-c", "PGPASSWORD=$(DB_PASSWORD) psql -h $(DB_SERVER) -p $(DB_PORT) -U $(DB_USER) -c 'CREATE DATABASE $(DB_DATABASE)' || true && PGPASSWORD=$(DB_PASSWORD) psql -h $(DB_SERVER) -p $(DB_PORT) -U $(DB_USER) -d $(DB_DATABASE) -c 'CREATE TABLE todos (item text);'  || true "]
       containers:
       - name: app-golang
-        image: docker.io/calvarado2004/golang-app:jenkins-golang-app-ci-10
+        image: docker.io/calvarado2004/golang-app:jenkins-golang-app-ci-11
         volumeMounts:
         - mountPath: /.cache
           name: cache-volume
