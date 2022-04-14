@@ -93,18 +93,18 @@ spec:
               - bash
               - -ec
               - 'curl http://127.0.0.1:8080'
-          initialDelaySeconds: 60
+          initialDelaySeconds: 23
           periodSeconds: 10
           timeoutSeconds: 5
           successThreshold: 1
-          failureThreshold: 12
+          failureThreshold: 6
         readinessProbe:
           exec:
             command:
               - bash
               - -ec
               - 'curl http://127.0.0.1:8080'
-          initialDelaySeconds: 45
+          initialDelaySeconds: 20
           periodSeconds: 10
           timeoutSeconds: 5
           successThreshold: 1
