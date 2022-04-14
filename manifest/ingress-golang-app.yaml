@@ -4,14 +4,14 @@ metadata:
   name: golang-app-ingress
   namespace: golang-app
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/app-root: /app-golang
 spec:
   ingressClassName: nginx
   rules:
     - host: worker2.calvarado04.com
       http:
         paths:
-          - path: /app-golang(/|$)(.*)
+          - path: /app-golang
             pathType: Prefix
             backend:
               service:
