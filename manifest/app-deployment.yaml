@@ -31,7 +31,7 @@ spec:
         fsGroup: 1001
       containers:
       - name: app-golang
-        image: docker.io/calvarado2004/golang-app:jenkins-golang-app-ci-15
+        image: docker.io/calvarado2004/golang-app:jenkins-golang-app-ci-16
         volumeMounts:
         - mountPath: /.cache
           name: cache-volume
