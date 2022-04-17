@@ -67,11 +67,7 @@ spec:
   - ports:
     - port: 5432
   egress:
-  - to:
-    - podSelector:
-        matchLabels:
-          app: postgres  
-    ports:
+  - ports:
     - port: 5432
 ---
 #Allow port 8080 of app id: app-golang from anywhere
