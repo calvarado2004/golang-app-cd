@@ -1,0 +1,103 @@
+#Allow access to DNS
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns-access
+  namespace: golang-app
+spec:
+  podSelector:
+    matchLabels: {}
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    - ipBlock:
+        cidr: 192.168.121.0/24
+    - ipBlock:
+        cidr: 10.96.0.10/32
+    ports:
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 53
+    - protocol: TCP
+      port: 9253
+    - protocol: TCP
+      port: 9153
+---
+#Allow port 5432 on Pods of app: postgres from itself pods and from/to pgpool from/to the namespace golang-app
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-from-itself-port5432
+  namespace: golang-app
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+  - ports:
+    - port: 5432
+  egress:
+  - ports:
+    - port: 5432
+---
+#Allow port 5432 on Pods of app: pgpool from pods on id: app-golang only from/to the namespace golang-app
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-from-app-golang-port5432
+  namespace: golang-app
+spec:
+  podSelector:
+    matchLabels:
+      app: pgpool
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              project: golang-app
+          podSelector:
+            matchLabels:
+              id: app-golang
+      ports:
+        - protocol: TCP
+          port: 5432
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              project: golang-app
+          podSelector:
+            matchLabels:
+              id: app-golang
+      ports:
+        - protocol: TCP
+          port: 5432
+---
+#Allow port 8080 of app id: app-golang from anywhere
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-to-app-golang-port8080
+  namespace: golang-app
+spec:
+  podSelector:
+    matchLabels:
+      id: app-golang
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - ports:
+    - port: 8080
+  egress:
+  - ports:
+    - port: 8080
