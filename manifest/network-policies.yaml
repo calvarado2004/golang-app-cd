@@ -60,27 +60,11 @@ spec:
     - Ingress
     - Egress
   ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              project: golang-app
-          podSelector:
-            matchLabels:
-              id: app-golang
-      ports:
-        - protocol: TCP
-          port: 5432
+  - ports:
+    - port: 5432
   egress:
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              project: golang-app
-          podSelector:
-            matchLabels:
-              id: app-golang
-      ports:
-        - protocol: TCP
-          port: 5432
+  - ports:
+    - port: 5432
 ---
 #Allow port 8080 of app id: app-golang from anywhere
 apiVersion: networking.k8s.io/v1
