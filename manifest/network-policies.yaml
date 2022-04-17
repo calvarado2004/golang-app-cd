@@ -42,9 +42,29 @@ spec:
   ingress:
   - ports:
     - port: 5432
+    from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: golang-app
+      podSelector:
+        matchLabels:
+          network-policy: postgres-sts
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: golang-app
+      podSelector:
+        matchLabels:
+          network-policy: pgpool-policy
   egress:
   - ports:
     - port: 5432
+    to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: golang-app
+      podSelector:
+        matchLabels:
+          network-policy: postgres-sts
 ---
 #Allow port 5432 on Pods of app: pgpool from pods on id: app-golang only from/to the namespace golang-app
 apiVersion: networking.k8s.io/v1
