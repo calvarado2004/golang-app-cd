@@ -1,4 +1,15 @@
-#Allow access to DNS
+#Default deny all traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+#Allow access to DNS on all pods, DNS is located on each nodde and also using the default kube-system service
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -26,7 +37,7 @@ spec:
     - protocol: TCP
       port: 9153
 ---
-#Allow port 5432 on Pods of app: postgres from itself pods and from/to pgpool from/to the namespace golang-app
+#Allow port 5432 on Pods from/to itself pods, and from network-policy: pgpool-policy from the namespace golang-app
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -36,9 +47,6 @@ spec:
   podSelector:
     matchLabels:
       app: postgres
-  policyTypes:
-    - Ingress
-    - Egress
   ingress:
   - ports:
     - port: 5432
@@ -54,7 +62,7 @@ spec:
           kubernetes.io/metadata.name: golang-app
       podSelector:
         matchLabels:
-          network-policy: pgpool-policy
+          
   egress:
   - ports:
     - port: 5432
@@ -66,7 +74,7 @@ spec:
         matchLabels:
           network-policy: postgres-sts
 ---
-#Allow port 5432 on Pods of app: pgpool from pods on id: app-golang only from/to the namespace golang-app
+#Allow port 5432 on Pods of app: pgpool from pods on network-policy: app-golang-policy only from the namespace golang-app and allow egress traffic to network-policy: postgres-sts on namespace golang-app
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -76,9 +84,6 @@ spec:
   podSelector:
     matchLabels:
       app: pgpool
-  policyTypes:
-    - Ingress
-    - Egress
   ingress:
   - ports:
     - port: 5432
@@ -100,7 +105,7 @@ spec:
         matchLabels:
           network-policy: postgres-sts
 ---
-#Allow port 8080 of app id: app-golang from anywhere
+#Allow port 8080 of app id: app-golang from anywhere and allow egress traffic to network-policy: pgpool-policy on namespace golang-app
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -110,9 +115,6 @@ spec:
   podSelector:
     matchLabels:
       id: app-golang
-  policyTypes:
-  - Ingress
-  - Egress
   ingress:
   - ports:
     - port: 8080
