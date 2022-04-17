@@ -10,6 +10,29 @@ spec:
   - Ingress
   - Egress
 ---
+#Allow port 5432 on Pods of app: postgres from localhost pods only from/to the namespace golang-app
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-from-localhost-port5432
+  namespace: golang-app
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  ingress:
+  - ports:
+    - port: 5432
+    from:
+    - ipBlock:
+        cidr: 127.0.0.1/32
+  egress:
+  - ports:
+    - port: 5432
+    to:
+    - ipBlock:
+        cidr: 127.0.0.1/32
+---
 #Allow port 5432 on Pods of app: postgres from itself pods only from/to the namespace golang-app
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
