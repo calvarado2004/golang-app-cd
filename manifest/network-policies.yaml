@@ -60,10 +60,24 @@ spec:
     - Ingress
     - Egress
   ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+      podSelector:
+        matchLabels:
+          id: golang-app
   - ports:
     - port: 5432
   egress:
-  - ports:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+      podSelector:
+        matchLabels:
+          app: postgres  
+    ports:
     - port: 5432
 ---
 #Allow port 8080 of app id: app-golang from anywhere
@@ -83,6 +97,12 @@ spec:
   - ports:
     - port: 8080
   egress:
-  - ports:
-    - port: 8080
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+      podSelector:
+        matchLabels:
+          app: pgpool
+    ports:
     - port: 5432
