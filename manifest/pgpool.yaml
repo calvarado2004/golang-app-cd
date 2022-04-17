@@ -52,6 +52,7 @@ spec:
     metadata:
       labels: 
         app: pgpool
+        network-policy: pgpool-policy
     spec:          
       securityContext:
         #type: RunAsAny
