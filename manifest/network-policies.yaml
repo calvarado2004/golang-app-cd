@@ -61,20 +61,14 @@ spec:
     - Egress
   ingress:
   - from:
-    - namespaceSelector:
-        matchLabels:
-          name: golang-app
-      podSelector:
+    - podSelector:
         matchLabels:
           id: app-golang
   - ports:
     - port: 5432
   egress:
   - to:
-    - namespaceSelector:
-        matchLabels:
-          name: golang-app
-      podSelector:
+    - podSelector:
         matchLabels:
           app: postgres  
     ports:
