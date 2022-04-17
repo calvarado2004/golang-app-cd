@@ -1,0 +1,57 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: golang-app
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-from-pgpool-port5432
+  namespace: golang-app
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  ingress:
+  - ports:
+    - port: 5432
+    from:
+    - podSelector:
+        matchLabels:
+          app: pgpool
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-from-app-golang-port5432
+  namespace: golang-app
+spec:
+  podSelector:
+    matchLabels:
+      app: pgpool
+  ingress:
+  - ports:
+    - port: 5432
+    from:
+    - podSelector:
+        matchLabels:
+          id: app-golang
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-to-app-golang-port8080
+  namespace: golang-app
+spec:
+  podSelector:
+    matchLabels:
+      id: app-golang
+  ingress:
+  - ports:
+    - port: 8080
