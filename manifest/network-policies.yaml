@@ -10,7 +10,38 @@ spec:
   - Ingress
   - Egress
 ---
-#Allow port 5432 on Pods of app: postgres from pods on app: pgpool only from the namespace golang-app
+#Allow port 5432 on Pods of app: postgres from itself pods only from/to the namespace golang-app
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-from-pgpool-port5432
+  namespace: golang-app
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  ingress:
+  - ports:
+    - port: 5432
+    from:
+    - podSelector:
+        matchLabels:
+          app: postgres
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: golang-app 
+  egress:
+  - ports:
+    - port: 5432
+    to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: golang-app 
+---
+#Allow port 5432 on Pods of app: postgres from pods on app: pgpool only from/to the namespace golang-app
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
@@ -30,8 +61,18 @@ spec:
       namespaceSelector:
         matchLabels:
           kubernetes.io/metadata.name: golang-app 
+  egress:
+  - ports:
+    - port: 5432
+    to:
+    - podSelector:
+        matchLabels:
+          app: pgpool
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: golang-app 
 ---
-#Allow port 5432 on Pods of app: pgpool from pods on id: app-golang only from the namespace golang-app
+#Allow port 5432 on Pods of app: pgpool from pods on id: app-golang only from/to the namespace golang-app
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -51,6 +92,16 @@ spec:
       namespaceSelector:
         matchLabels:
           kubernetes.io/metadata.name: golang-app 
+  egress:
+  - ports:
+    - port: 5432
+    to:
+    - podSelector:
+        matchLabels:
+          id: app-golang
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: golang-app 
 ---
 #Allow port 8080 of app id: app-golang from anywhere
 apiVersion: networking.k8s.io/v1
@@ -63,5 +114,8 @@ spec:
     matchLabels:
       id: app-golang
   ingress:
+  - ports:
+    - port: 8080
+  egress:
   - ports:
     - port: 8080
