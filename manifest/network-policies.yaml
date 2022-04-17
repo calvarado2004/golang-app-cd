@@ -60,10 +60,6 @@ spec:
     - Ingress
     - Egress
   ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          id: app-golang
   - ports:
     - port: 5432
   egress:
