@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         id: app-golang
+        network-policy: app-golang-policy
     spec:
       schedulerName: stork
       affinity:
