@@ -63,17 +63,17 @@ spec:
   - from:
     - namespaceSelector:
         matchLabels:
-          name: kube-system
+          name: golang-app
       podSelector:
         matchLabels:
-          id: golang-app
+          id: app-golang
   - ports:
     - port: 5432
   egress:
   - to:
     - namespaceSelector:
         matchLabels:
-          name: kube-system
+          name: golang-app
       podSelector:
         matchLabels:
           app: postgres  
@@ -100,7 +100,7 @@ spec:
   - to:
     - namespaceSelector:
         matchLabels:
-          name: kube-system
+          name: golang-app
       podSelector:
         matchLabels:
           app: pgpool
