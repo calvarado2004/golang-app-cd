@@ -94,6 +94,7 @@ spec:
     metadata:
       labels:
         app: postgres
+        network-policy: postgres-sts
     spec:
       affinity:
         podAntiAffinity:
