@@ -87,12 +87,5 @@ spec:
   - ports:
     - port: 8080
   egress:
-  - to:
-    - namespaceSelector:
-        matchLabels:
-          name: golang-app
-      podSelector:
-        matchLabels:
-          app: pgpool
-    ports:
+  - ports:
     - port: 5432
