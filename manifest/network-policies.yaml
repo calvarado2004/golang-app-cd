@@ -30,6 +30,8 @@ spec:
       namespaceSelector:
         matchLabels:
           kubernetes.io/metadata.name: golang-app 
+      ipBlock:
+        cidr: 127.0.0.1/32
   egress:
   - ports:
     - port: 5432
@@ -39,7 +41,9 @@ spec:
           app: postgres
       namespaceSelector:
         matchLabels:
-          kubernetes.io/metadata.name: golang-app 
+          kubernetes.io/metadata.name: golang-app
+      ipBlock:
+        cidr: 127.0.0.1/32
 ---
 #Allow port 5432 on Pods of app: postgres from pods on app: pgpool only from/to the namespace golang-app
 kind: NetworkPolicy
