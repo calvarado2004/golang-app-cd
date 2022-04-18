@@ -67,10 +67,10 @@ spec:
         livenessProbe:
           exec:
             command:
-              - bash
+              - sh
               - -ec
-              - 'curl http://127.0.0.1:8080'
-          initialDelaySeconds: 23
+              - 'curl http://127.0.0.1:8080/app-golang'
+          initialDelaySeconds: 7
           periodSeconds: 10
           timeoutSeconds: 5
           successThreshold: 1
@@ -78,10 +78,10 @@ spec:
         readinessProbe:
           exec:
             command:
-              - bash
+              - sh
               - -ec
-              - 'curl http://127.0.0.1:8080'
-          initialDelaySeconds: 20
+              - 'curl http://127.0.0.1:8080/app-golang'
+          initialDelaySeconds: 5
           periodSeconds: 10
           timeoutSeconds: 5
           successThreshold: 1
