@@ -27,22 +27,9 @@ spec:
                   - app-golang
             topologyKey: "kubernetes.io/hostname"
             #topologyKey: topology.kubernetes.io/zone
-      securityContext:
-        #Type: anyuid
-        fsGroup: 1001
       containers:
       - name: app-golang
         image: {{ CONTAINER_IMAGE }}:{{ USED_TAG }}
-        volumeMounts:
-        - mountPath: /.cache
-          name: cache-volume
-        - mountPath: /go/pkg/mod/cache/download/github.com
-          name: download-volume
-        - mountPath: /app/tmp
-          name: tmp-vol
-        securityContext:
-          #Type: anyuid
-          runAsUser: 1001
         env:
         - name: DB_SERVER
           value: "pgpool-svc"
@@ -59,11 +46,11 @@ spec:
               key: postgresql-password
         resources:
           requests:
+            cpu: 10m
+            memory: 10Mi
+          limits:
             cpu: 100m
             memory: 100Mi
-          limits:
-            cpu: 400m
-            memory: 200Mi
         livenessProbe:
           exec:
             command:
@@ -90,13 +77,6 @@ spec:
           - name: http
             containerPort: 8080
             protocol: TCP
-      volumes:
-      - name: cache-volume
-        emptyDir: {}
-      - name: download-volume
-        emptyDir: {}
-      - name: tmp-vol
-        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
