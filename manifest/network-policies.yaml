@@ -63,7 +63,7 @@ spec:
           kubernetes.io/metadata.name: golang-app
       podSelector:
         matchLabels:
-          
+          network-policy: pgpool-policy
   egress:
   - ports:
     - port: 5432
