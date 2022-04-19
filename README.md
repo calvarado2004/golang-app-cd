@@ -10,4 +10,4 @@ After that, ArgoCD will deploy the objects on the manifest.
 
 ![ArgoCD view](/images/Golang-app.png)
 
-
+![App](/images/App.png)
