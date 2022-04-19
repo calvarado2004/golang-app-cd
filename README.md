@@ -1,4 +1,4 @@
-# Sample Continuous Deployment Application written on Go
+# Sample Continuous Deployment Application for Kubernetes written on Go
 
 This application demonstrates the lightweight result of Go and consumes a PostgreSQL StatefulSet.
 
