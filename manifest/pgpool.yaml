@@ -55,7 +55,7 @@ spec:
         network-policy: pgpool-policy
     spec:          
       securityContext:
-        fsGroup: 1000620000
+        fsGroup: 1000650000
         fsGroupChangePolicy: "OnRootMismatch"
       affinity:
         #Collocate the pod on a node with a postgres pod to maximize performance 
@@ -92,7 +92,7 @@ spec:
               memory: 1Gi
               cpu: 800m
           securityContext:
-            runAsUser: 1000620000
+            runAsUser: 1000650000
           env:
             - name: BITNAMI_DEBUG
               value: "false"
