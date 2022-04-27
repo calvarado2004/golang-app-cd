@@ -108,8 +108,8 @@ spec:
             topologyKey: "kubernetes.io/hostname"
             #topologyKey: topology.kubernetes.io/zone
       securityContext:
-        #type: RunAsAny
-        fsGroup: 1001
+        fsGroup: 1000620000
+        fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - name: postgresql
           lifecycle:
@@ -120,8 +120,7 @@ spec:
           image: docker.io/bitnami/postgresql-repmgr:13.6.0
           imagePullPolicy: "IfNotPresent"
           securityContext:
-            #type: RunAsAny
-            runAsUser: 1001
+            runAsUser: 1000620000
           # Auxiliary vars to populate environment variables
           env:
             - name: BITNAMI_DEBUG
