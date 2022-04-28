@@ -234,8 +234,8 @@ spec:
     - metadata:
         name: data
       spec:
-        accessModes: ["ReadWriteOnce"]
+        accessModes: ["ReadWriteMany"]
         storageClassName: portworx-db-sc
         resources:
           requests:
-            storage: "5Gi"
+            storage: "25Gi"
