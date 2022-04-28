@@ -107,9 +107,10 @@ spec:
                   - postgres
             topologyKey: "kubernetes.io/hostname"
             #topologyKey: topology.kubernetes.io/zone
-      securityContext:
-        fsGroup: 1000650000
-        fsGroupChangePolicy: "OnRootMismatch"
+      #This is the Fix for PX issue, but we want to reproduce the issue.
+      #securityContext:
+      #  fsGroup: 1000650000
+      #  fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - name: postgresql
           lifecycle:
@@ -119,8 +120,8 @@ spec:
                   - /pre-stop.sh
           image: docker.io/bitnami/postgresql-repmgr:13.6.0
           imagePullPolicy: "IfNotPresent"
-          securityContext:
-            runAsUser: 1000650000
+          #securityContext:
+          #  runAsUser: 1000650000
           # Auxiliary vars to populate environment variables
           env:
             - name: BITNAMI_DEBUG
