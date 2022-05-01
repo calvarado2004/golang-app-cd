@@ -29,7 +29,7 @@ spec:
             #topologyKey: topology.kubernetes.io/zone
       containers:
       - name: app-golang
-        image: docker.io/calvarado2004/golang-app:jenkins-golang-app-ci-31
+        image: docker.io/calvarado2004/golang-app:jenkins-golang-app-ci-32
         env:
         - name: DB_SERVER
           value: "pgpool-svc"
